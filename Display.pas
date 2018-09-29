@@ -21,10 +21,20 @@ procedure ExceptionHandler();
 	HALT;
 	END;
 
+//All SDL initialization functions return a return code. 
+//If it is different from 0, then an error occured during initialization, 
+//so we deliberately close the game and display said error to prevent 
+//potential issues from occuring later on, which would be hard to diagnose.
+
 procedure InitializeDisplay();
 	BEGIN
-	if SDL_INIT(SDL_INIT_VIDEO) <> 0 then ExceptionHandler(); //All SDL initialization functions return a return code. If it is different from 0, then an error occured during initialization, so we deliberately close the game and display said error to prevent potential issues from occuring later on, which would be hard to diagnose.
-	if SDL_CreateWindowAndRenderer(800, 600, SDL_WINDOW_SHOWN or SDL_WINDOW_BORDERLESS, @mainWindow, @mainRenderer) <> 0 then ExceptionHandler();  // The 'or' operator allows us to combine flags. Hence here the window will be displayed (SDL_WINDOW_SHOWN) and borderless (SDL_WINDOW_BORDERLESS) for testing purposes.
+	if SDL_INIT(SDL_INIT_VIDEO) <> 0 then ExceptionHandler(); 
+	if SDL_CreateWindowAndRenderer(800, 600, SDL_WINDOW_SHOWN or SDL_WINDOW_BORDERLESS, @mainWindow, @mainRenderer) <> 0 then ExceptionHandler();  
+	
+	// The 'or' operator allows us to combine flags. 
+	//Hence here the window will be displayed (SDL_WINDOW_SHOWN) and 
+	//borderless (SDL_WINDOW_BORDERLESS) for testing purposes.
+	
 	tileTexture := IMG_LoadTexture(mainRenderer, Pchar(GetCurrentDir() + '/Assets/Sprites/placeholderTile.png'));
 	END;
 	
